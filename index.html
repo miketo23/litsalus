@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Litsalus</title>
+<link rel="icon" type="image/jpeg" href="faviconn.jpg">
+<link rel="apple-touch-icon" href="faviconn.jpg">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root{
+    --ink:#2d2a4a;
+    --muted:#9691b5;
+    --card:#ffffff;
+    --cream:#f7f3ff;
+    --green:#58cc02;
+    --green-deep:#46a302;
+    --red:#ff4b4b;
+    --red-deep:#c93838;
+    --blue:#1cb0f6;
+    --blue-deep:#1899d6;
+    --blue-text:#0e6fa8;
+    --purple:#ce82ff;
+    --purple-deep:#a568cc;
+    --gold:#ffc800;
+    --gold-deep:#e6a600;
+    --gold-text:#a86e00;
+    --shadow:0 14px 30px rgba(45,42,74,.22);
+}
+
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    font-family:'Nunito',sans-serif;
+    background:
+        radial-gradient(circle, rgba(255,255,255,.10) 2px, transparent 2.5px) 0 0/30px 30px,
+        linear-gradient(160deg, #6C3CE9 0%, #3E8EF7 55%, #29B6F6 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    padding:32px 20px;
+    min-height:100vh;
+}
+
+.game{ width:min(880px,100%); }
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:32px;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.header-left{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+#menuScreen{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+}
+
+.menu-card{
+    width:min(650px,95vw);
+    background:var(--card);
+    border:none;
+    border-radius:28px;
+    padding:50px 35px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    animation:modalPop .3s ease;
+}
+
+.menu-logo{
+    width:120px;
+    max-width:32vw;
+    margin-bottom:16px;
+    border-radius:50%;
+    object-fit:cover;
+    aspect-ratio:1/1;
+    box-shadow:0 6px 0 rgba(0,0,0,.1);
+}
+
+#menuScreen h1{
+    color:var(--ink);
+    text-shadow:none;
+}
+
+@media(max-width:600px){
+#menuScreen h1{ font-size:2.3rem; }
+}
+
+#menuScreen .tagline{
+    color:var(--muted);
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    max-width:450px;
+    margin:8px auto 30px;
+}
+
+label[for="usernameInput"]{
+    font-family:'Nunito',sans-serif;
+    font-weight:800;
+    font-size:.7rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+.menu-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    margin-top:16px;
+}
+
+.menu-buttons button{
+    width:100%;
+    max-width:350px;
+    margin:auto;
+    font-size:1.15rem;
+    padding:18px;
+}
+
+#usernameInput{
+    width:100%;
+    max-width:350px;
+    padding:14px 18px;
+    margin:10px auto 20px;
+    display:block;
+    font-size:1rem;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    color:var(--ink);
+    border:2px solid #e7e3f5;
+    background:var(--cream);
+    border-radius:14px;
+    transition:.15s;
+}
+
+#usernameInput:focus{
+    outline:none;
+    border-color:var(--blue);
+}
+
+#leaderboardList{
+    margin:20px 0;
+    text-align:left;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+}
+
+#leaderboardList p{
+    display:flex;
+    justify-content:space-between;
+    padding:11px 4px;
+    margin:0;
+    border-bottom:2px dashed #eee7fb;
+}
+
+#leaderboardList p:last-of-type{ border-bottom:none; }
+
+#leaderboardList p:nth-of-type(1){ color:var(--gold-text); }
+#leaderboardList p:nth-of-type(2){ color:var(--blue-text); }
+#leaderboardList p:nth-of-type(3){ color:var(--purple-deep); }
+
+#musicBtn{
+    width:52px;
+    height:52px;
+    flex:none;
+    border:none;
+    border-radius:50%;
+    background:var(--purple);
+    color:#ffffff;
+    font-size:1.3rem;
+    cursor:pointer;
+    box-shadow:0 4px 0 var(--purple-deep);
+    transition:.1s;
+}
+
+#musicBtn:hover{ transform:translateY(-1px); }
+#musicBtn:active{ transform:translateY(4px); box-shadow:none; }
+
+h1{
+    margin:0;
+    font-family:'Baloo 2',cursive;
+    font-size:2.7rem;
+    font-weight:800;
+    color:#ffffff;
+    text-shadow:0 3px 0 rgba(0,0,0,.15);
+    letter-spacing:.3px;
+}
+
+.tagline{
+    font-family:'Nunito',sans-serif;
+    font-size:.85rem;
+    font-weight:700;
+    color:rgba(255,255,255,.9);
+    margin-top:4px;
+    opacity:1;
+    max-width:32ch;
+    line-height:1.4;
+}
+
+.stats-panel{
+    display:flex;
+    gap:16px;
+    align-items:center;
+    background:var(--card);
+    border-radius:999px;
+    padding:10px 22px;
+    box-shadow:0 5px 0 rgba(0,0,0,.12);
+}
+
+.stat{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:var(--ink);
+}
+
+.stat-label{
+    font-family:'Nunito',sans-serif;
+    font-size:.6rem;
+    font-weight:800;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+.stat-value{
+    font-family:'Baloo 2',cursive;
+    font-size:1.2rem;
+    font-weight:700;
+    color:var(--gold-text);
+}
+
+.hearts{
+    font-size:1.3rem;
+    animation:heartPulse 2.4s ease-in-out infinite;
+}
+
+/* ---- the quiz card (formerly a prescription slip look) ---- */
+
+.slip-stack{ position:relative; }
+
+.copy{ display:none; }
+
+.label{
+    position:relative;
+    background:var(--card);
+    border-radius:26px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+}
+
+.perf{
+    height:12px;
+    background:linear-gradient(90deg, var(--green), var(--blue), var(--purple), var(--gold));
+}
+
+.label-inner{ padding:28px 26px 26px; }
+
+.rx{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:var(--gold);
+    color:#ffffff;
+    font-size:1.5rem;
+    font-weight:900;
+    margin-bottom:12px;
+    box-shadow:0 4px 0 var(--gold-deep);
+}
+
+.pharmacy{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    border-bottom:none;
+    padding-bottom:12px;
+    margin-bottom:18px;
+    gap:8px;
+}
+
+.pharmacy-name{
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1.08rem;
+    color:var(--ink);
+}
+
+.meta-line{
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:.82rem;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.meta-right{
+    text-align:right;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:.82rem;
+    color:var(--muted);
+}
+
+.med{
+    font-family:'Baloo 2',cursive;
+    font-size:1.5rem;
+    font-weight:700;
+    margin-bottom:16px;
+    color:var(--ink);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:12px;
+    align-items:stretch;
+}
+
+.sig{
+    background:var(--cream);
+    border:none;
+    padding:18px 20px;
+    border-radius:16px;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    line-height:1.6;
+    color:var(--ink);
+}
+
+.sig-label{
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    color:var(--blue-text);
+    letter-spacing:.3px;
+    margin-right:4px;
+}
+
+.highlight{
+    background-image:linear-gradient(120deg, rgba(255,200,0,.55) 0%, rgba(255,200,0,.55) 100%);
+    background-repeat:no-repeat;
+    background-size:100% 60%;
+    background-position:0 82%;
+    color:var(--ink);
+    font-weight:800;
+    padding:0 3px;
+    border-radius:2px;
+}
+
+.qty-box{
+    background:var(--cream);
+    border:none;
+    border-radius:16px;
+    padding:14px 24px;
+    text-align:center;
+    font-family:'Nunito',sans-serif;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.qty-label{
+    font-size:.62rem;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--muted);
+}
+
+#qty{
+    font-family:'Baloo 2',cursive;
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--blue-text);
+}
+
+.offer{
+    margin-top:22px;
+    background:linear-gradient(135deg, rgba(28,176,246,.08), rgba(206,130,255,.10));
+    border:2px solid rgba(28,176,246,.22);
+    padding:18px 20px;
+    border-radius:18px;
+}
+
+.offer strong{
+    font-family:'Baloo 2',cursive;
+    font-size:1rem;
+    display:block;
+    margin-bottom:8px;
+    font-weight:700;
+    color:var(--blue-text);
+}
+
+.offer p{
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:1rem;
+    margin:0;
+    line-height:1.55;
+    color:var(--ink);
+}
+
+.buttons{
+    display:flex;
+    gap:16px;
+    margin-top:28px;
+}
+
+button{
+    flex:1;
+    padding:16px;
+    cursor:pointer;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1rem;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+    border-radius:16px;
+    border:none;
+    transition:transform .1s, box-shadow .1s, filter .1s;
+    background:transparent;
+}
+
+button:hover{ filter:brightness(1.05); }
+
+.correct{
+    background:var(--green);
+    color:#ffffff;
+    box-shadow:0 5px 0 var(--green-deep);
+}
+
+.incorrect{
+    background:var(--red);
+    color:#ffffff;
+    box-shadow:0 5px 0 var(--red-deep);
+}
+
+.correct:hover{ transform:translateY(2px); box-shadow:0 3px 0 var(--green-deep); }
+.incorrect:hover{ transform:translateY(2px); box-shadow:0 3px 0 var(--red-deep); }
+
+.correct:active, .incorrect:active{
+    transform:translateY(5px);
+    box-shadow:none;
+}
+
+button:focus-visible{
+    outline:3px solid var(--blue-deep);
+    outline-offset:3px;
+}
+
+.feedback{
+    margin-top:18px;
+    min-height:26px;
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    font-size:1.1rem;
+}
+
+.flash{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:0;
+    z-index:9999;
+}
+
+.flash.show{ animation:flashPulse .3s ease-out; }
+.flash.correct{ background:var(--green); }
+.flash.incorrect{ background:var(--red); }
+
+/* card reacts to the existing correct/incorrect flash via :has(), no JS needed */
+body:has(.flash.show.correct) .label{ animation:cardBounce .35s ease; }
+body:has(.flash.show.incorrect) .label{ animation:cardShake .35s ease; }
+
+.overlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    background:rgba(45,42,74,.55);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+}
+
+.panel{
+    background:var(--card);
+    padding:38px 36px;
+    border-radius:26px;
+    text-align:center;
+    width:min(380px,90%);
+    border:none;
+    box-shadow:var(--shadow);
+    animation:modalPop .3s ease;
+}
+
+.panel h2{
+    font-family:'Baloo 2',cursive;
+    margin-top:0;
+    color:var(--ink);
+}
+
+.panel p{
+    font-family:'Nunito',sans-serif;
+    font-size:.78rem;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1.2px;
+    color:var(--muted);
+}
+
+#finalScore{
+    font-family:'Baloo 2',cursive;
+    color:var(--gold-text);
+    margin:6px 0 0;
+    font-size:3rem;
+}
+
+.restart{
+    background:var(--blue);
+    color:#ffffff;
+    margin-top:20px;
+    border:none;
+    border-radius:16px;
+    box-shadow:0 5px 0 var(--blue-deep);
+    transform:none;
+    font-family:'Baloo 2',cursive;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    font-size:1.05rem;
+}
+
+.restart:hover{ transform:translateY(2px); box-shadow:0 3px 0 var(--blue-deep); }
+.restart:active{ transform:translateY(5px); box-shadow:none; }
+
+.restart.mode-advanced{ background:var(--purple); box-shadow:0 5px 0 var(--purple-deep); }
+.restart.mode-advanced:hover{ box-shadow:0 3px 0 var(--purple-deep); }
+
+.restart.btn-ghost{
+    background:#ffffff;
+    color:var(--blue-text);
+    border:2px solid var(--blue);
+    box-shadow:0 4px 0 rgba(28,176,246,.3);
+}
+.restart.btn-ghost:hover{
+    background:#ffffff;
+    color:var(--blue-text);
+    box-shadow:0 2px 0 rgba(28,176,246,.3);
+}
+
+.btn-back{
+    flex:none;
+    background:rgba(255,255,255,.18);
+    border:2px solid rgba(255,255,255,.55);
+    color:#ffffff;
+    padding:8px 18px;
+    border-radius:999px;
+    font-family:'Nunito',sans-serif;
+    font-weight:800;
+    font-size:.78rem;
+    letter-spacing:.3px;
+    text-transform:none;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.btn-back:hover{
+    background:rgba(255,255,255,.3);
+    transform:translateY(-1px);
+}
+
+@media(max-width:650px){
+.grid{ grid-template-columns:1fr; }
+h1{ font-size:2.1rem; }
+.label-inner{ padding:22px 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+*{ transition:none !important; animation:none !important; }
+}
+
+::selection{
+    background:var(--gold);
+    color:var(--ink);
+}
+
+#loadingScreen{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(160deg, #6C3CE9 0%, #3E8EF7 55%, #29B6F6 100%);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10000;
+}
+
+.loading-logo{
+    width:110px;
+    margin-bottom:20px;
+    border-radius:50%;
+    object-fit:cover;
+    aspect-ratio:1/1;
+    box-shadow:0 6px 0 rgba(0,0,0,.15);
+}
+
+#loadingScreen h1{
+    color:#ffffff;
+    margin:10px 0;
+}
+
+#loadingScreen p{
+    color:rgba(255,255,255,.9);
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+.loader{
+    width:60px;
+    height:60px;
+    border:7px solid rgba(255,255,255,.3);
+    border-top:7px solid #ffffff;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+
+.footer{
+    text-align:center;
+    color:rgba(255,255,255,.7);
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:.7rem;
+    letter-spacing:.3px;
+    opacity:.8;
+    margin:30px 0 6px;
+}
+
+@keyframes spin{
+from{ transform:rotate(0deg); }
+to{ transform:rotate(360deg); }
+}
+
+@keyframes heartPulse{
+0%,100%{ transform:scale(1); }
+50%{ transform:scale(1.12); }
+}
+
+@keyframes flashPulse{
+0%{ opacity:.4; }
+100%{ opacity:0; }
+}
+
+@keyframes modalPop{
+0%{ transform:scale(.85); opacity:0; }
+100%{ transform:scale(1); opacity:1; }
+}
+
+@keyframes cardBounce{
+0%{ transform:scale(1) rotate(0deg); }
+40%{ transform:scale(1.015) rotate(-1deg); }
+70%{ transform:scale(1.008) rotate(1deg); }
+100%{ transform:scale(1) rotate(0deg); }
+}
+
+@keyframes cardShake{
+0%,100%{ transform:translateX(0); }
+20%{ transform:translateX(-8px); }
+40%{ transform:translateX(8px); }
+60%{ transform:translateX(-6px); }
+80%{ transform:translateX(6px); }
+}
+</style>
+</head>
+<body>
+    <div id="loadingScreen">
+
+    <img src="faviconn.jpg" class="loading-logo">
+
+    <h1>Litsalus</h1>
+
+    <p>Loading prescription database...</p>
+
+    <div class="loader"></div>
+
+</div>
+<div id="menuScreen" style="display:none;">
+
+    <div class="menu-card">
+
+        <img src="faviconn.jpg" class="menu-logo">
+
+        <h1>Litsalus</h1>
+
+        <p class="tagline">
+            Test your ability to interpret prescription SIG codes.
+        </p>
+        
+        <label for="usernameInput">Username</label>
+
+<input
+    id="usernameInput"
+    type="text"
+    maxlength="20"
+    placeholder="Enter a username">
+
+        <div class="menu-buttons">
+
+            <button class="restart" onclick="startGame('regular')">
+                Regular Mode
+            </button>
+
+            <button class="restart mode-advanced" onclick="startGame('advanced')">
+                Advanced Mode
+            </button>
+
+            <button class="restart btn-ghost" onclick="showLeaderboard()">
+🏆 Global Leaderboard
+</button>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="game" id="gameScreen" style="display:none;">
+
+<header>
+<div class="header-left">
+<button class="btn-back" onclick="backToMenu()">← Back</button>
+<div>
+<h1>Litsalus</h1>
+<div class="tagline">Decide whether the offered translation is completely correct.</div>
+</div>
+</div>
+
+<div class="header-right">
+<div class="stats-panel">
+<div class="stat"><span class="stat-label">Score</span><span class="stat-value" id="score">0</span></div>
+<div class="stat"><span class="stat-label">Best</span><span class="stat-value" id="best">0</span></div>
+<div class="stat hearts" id="hearts"></div>
+</div>
+
+<button id="musicBtn" onclick="toggleMusic()">
+🔇
+</button>
+</div>
+</header>
+
+<div class="slip-stack">
+<div class="copy copy-yellow"></div>
+<div class="copy copy-pink"></div>
+
+<div class="label">
+<div class="perf"></div>
+<div class="label-inner">
+
+<div class="rx">⚡</div>
+
+<div class="pharmacy">
+<div>
+<div class="pharmacy-name">Community Care Pharmacy</div>
+<div class="meta-line">Patient: <span id="patient"></span></div>
+</div>
+
+<div class="meta-right">
+<div id="rxnum"></div>
+<div id="date"></div>
+</div>
+</div>
+
+<div class="med" id="med"></div>
+
+<div class="grid">
+<div class="sig">
+<span class="sig-label">SIG:</span>
+<span id="sig"></span>
+</div>
+
+<div class="qty-box">
+<span class="qty-label">Qty</span>
+<div id="qty"></div>
+</div>
+</div>
+
+<div class="offer">
+<strong id="offerLabel">Does this match the following instruction?</strong>
+<p id="translation"></p>
+</div>
+
+<div class="buttons">
+<button class="correct" onclick="answer(true)">✔ Correct</button>
+<button class="incorrect" onclick="answer(false)">✖ Incorrect</button>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+</div>
+</div>
+</div>
+
+<footer class="footer">Created by Michael Okyere</footer>
+
+</div>
+
+<div class="overlay" id="gameOver">
+<div class="panel">
+<h2>Game Over</h2>
+<p>Your High Score</p>
+<h1 id="finalScore"></h1>
+<button class="restart" onclick="restart()">Play Again</button>
+</div>
+</div>
+
+<div class="overlay" id="leaderboardScreen">
+
+    <div class="panel">
+
+        <h2>🏆 Global Leaderboard</h2>
+
+        <div id="leaderboardList"></div>
+
+        <button class="restart btn-ghost" onclick="closeLeaderboard()">
+            Close
+        </button>
+
+    </div>
+
+</div>
+
+    
+<div id="flash" class="flash"></div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy,
+    limit
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCaK9MRmCNBA2N8Flte8e8daz3IKYlhaHY",
+  authDomain: "litsalus.firebaseapp.com",
+  databaseURL: "https://litsalus-default-rtdb.firebaseio.com",
+  projectId: "litsalus",
+  storageBucket: "litsalus.firebasestorage.app",
+  messagingSenderId: "558783714755",
+  appId: "1:558783714755:web:f71640635c231c54fe1976",
+  measurementId: "G-VM8G1090ND"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+    console.log("Firebase connected!");
+
+async function saveScore(name, score){
+
+    try{
+
+        await addDoc(collection(db, "scores"),{
+
+            username: name,
+            score: score,
+            mode: mode,
+            timestamp: new Date()
+
+        });
+
+        console.log("Score uploaded!");
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+let username = "";
+    
+const playlist = [
+    "deepend.mp3",
+    "virtual-love.mp3",
+    "pure-intentions.mp3"
+];
+
+const bgMusic = new Audio(
+    playlist[Math.floor(Math.random() * playlist.length)]
+);
+
+bgMusic.loop = true;
+bgMusic.volume = 0.25;
+
+let musicStarted = false;
+
+function startMusic(){
+
+    if(!musicStarted){
+
+        bgMusic.play().catch(err => console.log(err));
+
+        musicStarted = true;
+
+    }
+
+}
+
+function toggleMusic(){
+
+    if(bgMusic.paused){
+
+        bgMusic.play();
+        document.getElementById("musicBtn").textContent = "🔊";
+
+    }else{
+
+        bgMusic.pause();
+        document.getElementById("musicBtn").textContent = "🔇";
+
+    }
+
+}
+const firstNames = [
+  "James","Mary","John","Patricia","Robert","Jennifer",
+  "Michael","Linda","William","Elizabeth","David","Susan",
+  "Richard","Jessica","Joseph","Sarah","Thomas","Emily",
+  "Daniel","Ashley","Christopher","Olivia","Matthew","Sophia",
+  "Anthony","Emma","Noah","Ava","Liam","Charlotte"
+];
+
+const lastNames = [
+  "Smith","Johnson","Williams","Brown","Jones","Garcia",
+  "Miller","Davis","Rodriguez","Martinez","Hernandez",
+  "Lopez","Gonzalez","Wilson","Anderson","Thomas",
+  "Taylor","Moore","Jackson","Martin","Lee","Perez",
+  "Thompson","White","Harris","Clark","Lewis","Young"
+];
+
+function randomPatientName() {
+    return `${rand(firstNames)} ${rand(lastNames)}`;
+}
+
+const meds = [
+
+{
+    name:"Amoxicillin 500 mg Capsules",
+    routes:["PO"],
+    freqs:["BID","TID"]
+},
+
+{
+    name:"Lisinopril 10 mg Tablets",
+    routes:["PO"],
+    freqs:["QD"]
+},
+
+{
+    name:"Atorvastatin 20 mg Tablets",
+    routes:["PO"],
+    freqs:["QHS"]
+},
+
+{
+    name:"Nitroglycerin 0.4 mg Tablets",
+    routes:["SL"],
+    freqs:["PRN"]
+},
+
+{
+    name:"Timolol 0.5% Eye Drops",
+    routes:["OD","OS","OU"],
+    freqs:["BID"]
+},
+
+{
+    name:"Hydrocortisone Rectal Suppository",
+    routes:["PR"],
+    freqs:["BID"]
+}
+
+];
+
+const quantities=[20,30,60,90,120];
+
+const doseOptions=[
+{sig:"1 tab",text:"Take 1 tablet"},
+{sig:"2 tabs",text:"Take 2 tablets"},
+{sig:"1 cap",text:"Take 1 capsule"},
+{sig:"2 caps",text:"Take 2 capsules"}
+];
+
+const routes=[
+{sig:"PO",text:"by mouth"},
+{sig:"SL",text:"under the tongue"},
+{sig:"PR",text:"rectally"},
+{sig:"OU",text:"into both eyes"},
+{sig:"OS",text:"into the left eye"},
+{sig:"OD",text:"into the right eye"}
+];
+
+const freqs=[
+{sig:"QD",text:"once a day"},
+{sig:"BID",text:"twice a day"},
+{sig:"TID",text:"three times a day"},
+{sig:"QID",text:"four times a day"},
+{sig:"QHS",text:"at bedtime"},
+{sig:"Q4H",text:"every 4 hours"},
+{sig:"Q6H",text:"every 6 hours"}
+];
+
+let score=0;
+let hearts=3;
+let currentCorrect=true;
+let mode="regular";
+
+let currentDose, currentRoute, currentFreq, currentHighlightIndex;
+
+const scoreEl=document.getElementById("score");
+const bestEl=document.getElementById("best");
+
+const bestKey =
+    mode === "advanced"
+        ? "sigBestAdvanced"
+        : "sigBestRegular";
+
+let best = Number(localStorage.getItem(bestKey) || 0);
+bestEl.textContent = best;
+
+function rand(a){
+return a[Math.floor(Math.random()*a.length)];
+}
+
+function randomDate(){
+return new Date().toLocaleDateString();
+}
+
+function renderSig(){
+
+const parts = mode==="advanced"
+? [currentDose.sig, currentRoute.sig, currentFreq.sig]
+: [currentDose.text, currentRoute.text, currentFreq.text];
+
+let sigHTML="";
+
+parts.forEach((p,i)=>{
+if(i===currentHighlightIndex){
+sigHTML+=`<span class="highlight">${p}</span> `;
+}else{
+sigHTML+=p+" ";
+}
+});
+
+sigHTML=sigHTML.trim();
+
+if(mode==="regular"){
+sigHTML+=".";
+}
+
+document.getElementById("sig").innerHTML=sigHTML;
+
+document.getElementById("offerLabel").textContent = mode==="advanced"
+? "Offered Translation"
+: "Does this match the following instruction?";
+
+}
+
+function makePuzzle(){
+
+document.getElementById("feedback").textContent="";
+
+const med = rand(meds);
+
+const allowedRoutes =
+    routes.filter(r =>
+        med.routes.includes(r.sig)
+    );
+
+const allowedFreqs =
+    freqs.filter(f =>
+        med.freqs.includes(f.sig)
+    );
+const qty=rand(quantities);
+
+currentDose=rand(doseOptions);
+currentRoute=rand(allowedRoutes);
+currentFreq=rand(allowedFreqs);
+currentHighlightIndex=Math.floor(Math.random()*3);
+
+let translation=`${currentDose.text} ${currentRoute.text} ${currentFreq.text}.`;
+
+currentCorrect=Math.random()<0.5;
+
+if(!currentCorrect){
+
+const error=Math.floor(Math.random()*3);
+// Highlight the thing that is wrong
+    currentHighlightIndex = error;
+
+if(error===0){
+let wrong=rand(doseOptions);
+while(wrong.text===currentDose.text) wrong=rand(doseOptions);
+translation=`${wrong.text} ${currentRoute.text} ${currentFreq.text}.`;
+}
+
+if(error===1){
+let wrong=rand(routes);
+while(wrong.text===currentRoute.text) wrong=rand(routes);
+translation=`${currentDose.text} ${wrong.text} ${currentFreq.text}.`;
+}
+
+if(error===2){
+let wrong=rand(freqs);
+while(wrong.text===currentFreq.text) wrong=rand(freqs);
+translation=`${currentDose.text} ${currentRoute.text} ${wrong.text}.`;
+}
+
+}
+
+document.getElementById("translation").textContent=translation;
+document.getElementById("med").textContent=med.name;
+document.getElementById("qty").textContent=qty;
+document.getElementById("date").textContent=randomDate();
+document.getElementById("rxnum").textContent="Rx #"+Math.floor(100000+Math.random()*900000);
+document.getElementById("patient").textContent=randomPatientName();
+
+renderSig();
+
+}
+
+function setMode(newMode){
+
+if(mode===newMode) return;
+
+mode=newMode;
+
+makePuzzle();
+
+}
+
+function answer(playerSaysCorrect){
+
+if(playerSaysCorrect===currentCorrect){
+flashScreen("correct");
+
+score++;
+scoreEl.textContent=score;
+
+if(score>best){
+best=score;
+localStorage.setItem(getBestKey(), best);
+bestEl.textContent=best;
+}
+
+document.getElementById("feedback").style.color="#3d9902";
+document.getElementById("feedback").textContent="Correct!";
+makePuzzle();
+
+}else{
+
+hearts--;
+updateHearts();
+
+document.getElementById("feedback").style.color="#c93838";
+
+    let explanation = "";
+
+if(currentHighlightIndex===0)
+    explanation = "Check the dose.";
+
+if(currentHighlightIndex===1)
+    explanation = "Check the route of administration.";
+
+if(currentHighlightIndex===2)
+    explanation = "Check the frequency.";
+
+document.getElementById("feedback").textContent =
+"Incorrect. " + explanation;
+
+if(hearts<=0){
+gameOver();
+}else{
+makePuzzle();
+}
+
+}
+
+}
+
+function updateHearts(){
+
+document.getElementById("hearts").textContent=
+"❤️".repeat(hearts)+"🖤".repeat(3-hearts);
+
+}
+
+async function gameOver(){
+
+    await saveScore(username, score);
+
+    document.getElementById("finalScore").textContent = best;
+    document.getElementById("gameOver").style.display = "flex";
+
+}
+async function showLeaderboard(){
+
+    const q = query(
+        collection(db, "scores"),
+        orderBy("score","desc"),
+        limit(10)
+    );
+
+    const snapshot = await getDocs(q);
+
+    let html = "";
+
+    let place = 1;
+
+    snapshot.forEach(doc=>{
+
+        const data = doc.data();
+
+        html += `
+        <p>
+            ${place}. ${data.username}
+            <strong>${data.score}</strong>
+        </p>
+        `;
+
+        place++;
+
+    });
+
+    document.getElementById("leaderboardList").innerHTML = html;
+
+    document.getElementById("leaderboardScreen").style.display="flex";
+
+}
+
+function closeLeaderboard(){
+
+    document.getElementById("leaderboardScreen").style.display="none";
+
+}
+    
+function getBestKey(){
+
+    return mode === "advanced"
+        ? "sigBestAdvanced"
+        : "sigBestRegular";
+
+}
+
+function startGame(selectedMode){
+
+    username =
+        document.getElementById("usernameInput")
+        .value
+        .trim();
+
+    if(username === ""){
+
+        alert("Please enter a username.");
+
+        return;
+
+    }
+
+    localStorage.setItem("username", username);
+
+    mode = selectedMode;
+
+    best = Number(localStorage.getItem(getBestKey()) || 0);
+    bestEl.textContent = best;
+
+    document.getElementById("menuScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+
+    restart();
+    startMusic();
+
+}
+
+function restart(){
+
+score=0;
+hearts=3;
+scoreEl.textContent=0;
+updateHearts();
+document.getElementById("gameOver").style.display="none";
+makePuzzle();
+
+}
+
+function backToMenu(){
+
+    score = 0;
+    hearts = 3;
+
+    scoreEl.textContent = 0;
+    updateHearts();
+
+    document.getElementById("gameOver").style.display="none";
+
+    document.getElementById("gameScreen").style.display="none";
+    document.getElementById("menuScreen").style.display="block";
+
+}
+
+function flashScreen(type){
+
+const flash=document.getElementById("flash");
+
+flash.className="flash "+type+" show";
+
+setTimeout(()=>{
+flash.classList.remove("show");
+},300);
+
+}
+
+updateHearts();
+
+document.getElementById("usernameInput").value =
+    localStorage.getItem("username") || "";
+    
+    window.onload = function(){
+
+    setTimeout(function(){
+
+document.getElementById("loadingScreen").style.display="none";
+document.getElementById("menuScreen").style.display="flex";
+
+    },2000);
+
+}
+
+window.startGame = startGame;
+window.answer = answer;
+window.restart = restart;
+window.backToMenu = backToMenu;
+window.toggleMusic = toggleMusic;
+window.showLeaderboard = showLeaderboard;
+window.closeLeaderboard = closeLeaderboard;
+
+</script>
+
+</body>
+</html>
